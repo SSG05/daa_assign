@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/daa_assign/static/css/main.521fbd27.css",
+    "main.js": "/daa_assign/static/js/main.1477c5b5.js",
+    "static/js/453.b2d5f986.chunk.js": "/daa_assign/static/js/453.b2d5f986.chunk.js",
+    "index.html": "/daa_assign/index.html",
+    "main.521fbd27.css.map": "/daa_assign/static/css/main.521fbd27.css.map",
+    "main.1477c5b5.js.map": "/daa_assign/static/js/main.1477c5b5.js.map",
+    "453.b2d5f986.chunk.js.map": "/daa_assign/static/js/453.b2d5f986.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.521fbd27.css",
+    "static/js/main.1477c5b5.js"
+  ]
+}

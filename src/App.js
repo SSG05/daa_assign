@@ -1,125 +1,174 @@
-// App.jsx
 import React from 'react';
 import './App.css';
+import emailEnronImg from './images/email_size.jpg';
+import asSkitterImg from './images/ask_size.jpg';
+import wikiVoteImg from './images/wiki_vote_size.jpg';
 
-// Sample data structure (replace with your actual data)
-const projectData = {
+// Project data constants
+const PROJECT_DATA = {
   datasets: [
     {
-      name: "Dataset 1",
-      largestClique: 15,
-      totalCliques: 245,
-      executionTime: 1.23, // seconds
-      cliqueDistribution: [0, 0, 5, 10, 25, 40, 60, 50, 30, 15, 8, 2, 0, 0, 1]
+      name: 'email-Enron',
+      largestClique: 20,
+      totalCliques: 226859,
+      cliqueDistributionImage: emailEnronImg,
     },
     {
-      name: "Dataset 2",
-      largestClique: 12,
-      totalCliques: 187,
-      executionTime: 0.89,
-      cliqueDistribution: [0, 0, 8, 15, 30, 45, 35, 25, 15, 8, 4, 2]
-    }
+      name: 'as-Skitter',
+      largestClique: 67,
+      totalCliques: 37322355,
+      cliqueDistributionImage: asSkitterImg,
+    },
+    {
+      name: 'wiki-Vote',
+      largestClique: 17,
+      totalCliques: 459002,
+      cliqueDistributionImage: wikiVoteImg,
+    },
   ],
   algorithms: [
-    {
-      name: "CLIQUE (Worst-case)",
-      executionTimes: [1.23, 0.89] // seconds per dataset
-    },
-    {
-      name: "BronkerboschDegeneracy",
-      executionTimes: [0.95, 0.72]
-    },
-    {
-      name: "CLIQUE (Arboricity)",
-      executionTimes: [1.05, 0.78]
-    }
-  ]
+    { name: 'Chiba', executionTimes: [86.3, 10807.4 , 44.6] },
+    { name: 'ELS', executionTimes: [2.3, 768, 2.8] },
+    { name: 'Tomita', executionTimes: [3, 5209.2 , 3.22] },
+  ],
 };
 
-function App() {
+// Component for displaying dataset information
+const DatasetCard = ({ dataset }) => (
+  <article className="dataset-card fade-in">
+    <h4>{dataset.name}</h4>
+    <p>
+      <strong>Largest Clique Size:</strong> {dataset.largestClique}
+    </p>
+    <p>
+      <strong>Total Maximal Cliques:</strong> {dataset.totalCliques.toLocaleString()}
+    </p>
+    <div className="clique-distribution">
+      <h5>Clique Size Distribution</h5>
+      <img
+        src={dataset.cliqueDistributionImage}
+        alt={`Clique distribution for ${dataset.name}`}
+        width="300"
+        height="auto"
+      />
+    </div>
+  </article>
+);
+
+// Component for displaying performance charts
+const PerformanceChart = ({ datasets, algorithms }) => {
+  const maxExecutionTime = Math.max(
+    ...algorithms.flatMap(algo => algo.executionTimes)
+  );
+  
+  const getBarHeight = (time) => {
+    const scaleFactor = 300 / maxExecutionTime;
+    return Math.max(10, time * scaleFactor);
+  };
+
+  const getBarColor = (algorithmName) => {
+    const colors = {
+      Chiba: '#4CAF50',
+      ELS: '#2196F3',
+      Tomita: '#F44336',
+    };
+    return colors[algorithmName] || '#666';
+  };
+
   return (
-    <div className="App">
-      <header>
-        <h1>Maximal Clique Enumeration Project</h1>
-        <p>Implementation and Analysis of Three Algorithms</p>
-      </header>
-
-      <section className="project-info">
-        <h2>Project Overview</h2>
-        <p>
-          This project implements and compares three maximal clique enumeration algorithms:
-          CLIQUE (Worst-case), BronkerboschDegeneracy, and CLIQUE (Arboricity).
-          The implementations are written in C/C++ and tested on multiple graph datasets.
-        </p>
-      </section>
-
-      <section className="results">
-        <h2>Experimental Results</h2>
-        
-        <div className="dataset-stats">
-          <h3>Dataset Statistics</h3>
-          {projectData.datasets.map((dataset, index) => (
-            <div key={index} className="dataset-card">
+    <section className="performance">
+      <h3>Performance Comparison</h3>
+      <div className="performance-container">
+        <div className="time-graphs-row">
+          {datasets.map((dataset, index) => (
+            <div key={dataset.name} className="dataset-performance">
               <h4>{dataset.name}</h4>
-              <p>Largest Clique Size: {dataset.largestClique}</p>
-              <p>Total Maximal Cliques: {dataset.totalCliques}</p>
-              <div className="clique-distribution">
-                <h5>Clique Size Distribution</h5>
-                <div className="histogram">
-                  {dataset.cliqueDistribution.map((count, size) => (
-                    count > 0 && (
-                      <div 
-                        key={size}
-                        className="bar"
-                        style={{ height: `${count * 5}px` }}
-                        title={`Size ${size}: ${count} cliques`}
-                      >
-                        <span>{size}</span>
-                      </div>
-                    )
-                  ))}
-                </div>
+              <div className="time-histogram">
+                {algorithms.map((algo) => {
+                  const time = algo.executionTimes[index];
+                  return (
+                    <div
+                      key={algo.name}
+                      className="time-bar"
+                      style={{ 
+                        height: `${getBarHeight(time)}px`,
+                        backgroundColor: getBarColor(algo.name),
+                      }}
+                    >
+                      <span className="time-label">
+                        {time.toLocaleString()}s
+                      </span>
+                      <span className="algo-label">
+                        {algo.name}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
 
-        <div className="performance">
-          <h3>Performance Comparison</h3>
-          <div className="execution-times">
-            {projectData.datasets.map((dataset, dIndex) => (
-              <div key={dIndex} className="dataset-performance">
-                <h4>{dataset.name}</h4>
-                <div className="time-histogram">
-                  {projectData.algorithms.map((algo, aIndex) => (
-                    <div 
-                      key={aIndex}
-                      className="time-bar"
-                      style={{ height: `${algo.executionTimes[dIndex] * 100}px` }}
-                    >
-                      <span>{algo.name}: {algo.executionTimes[dIndex]}s</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+// Component for observations
+const Observations = () => (
+  <section className="observations">
+    <h2>Observations</h2>
+    <ul>
+      <li>ELS performs best with small datasets but scales poorly with large graphs.</li>
+      <li>Tomita excels with small graphs but slows significantly with massive datasets like as-Skitter.</li>
+      <li>Chiba maintains consistent performance across all dataset sizes.</li>
+      <li>All algorithms show increased execution times with larger clique sizes.</li>
+    </ul>
+  </section>
+);
+
+function App() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <div className="App">
+      <header>
+        <h1>Maximal Clique Enumeration Project</h1>
+        <p>Comparing Chiba, ELS, and Tomita Algorithms</p>
+      </header>
+
+      <main>
+        <section className="project-info">
+          <h2>Project Overview</h2>
+          <p>
+            This project implements and compares three maximal clique enumeration algorithms: Chiba, ELS, and Tomita,
+            using C/C++ implementations tested on large graph datasets.
+          </p>
+        </section>
+
+        <section className="results">
+          <h2>Experimental Results</h2>
+          <div className="dataset-stats">
+            <h3>Dataset Statistics</h3>
+            <div className="dataset-grid">
+              {PROJECT_DATA.datasets.map((dataset) => (
+                <DatasetCard key={dataset.name} dataset={dataset} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+          <PerformanceChart datasets={PROJECT_DATA.datasets} algorithms={PROJECT_DATA.algorithms} />
+        </section>
 
-      <section className="observations">
-        <h2>Observations</h2>
-        <ul>
-          <li>BronkerboschDegeneracy consistently showed the best performance across datasets</li>
-          <li>Larger clique sizes correlate with increased execution time</li>
-          <li>Sparse graphs benefited more from the Arboricity-based algorithm</li>
-          <li>The worst-case CLIQUE algorithm performed better on dense graphs</li>
-        </ul>
-      </section>
+        <Observations />
+      </main>
 
       <footer>
-        <p>Created by [Your Name] | March 23, 2025</p>
-        <p>Source code available on <a href="#">GitHub</a></p>
+        <p>Created by Soumith | {currentYear}</p>
+        <p>
+          Source code available on{' '}
+          <a href="https://github.com/SSG05/daa_assign" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+        </p>
       </footer>
     </div>
   );

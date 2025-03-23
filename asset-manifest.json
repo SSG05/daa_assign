@@ -1,15 +1,18 @@
 {
   "files": {
-    "main.css": "/daa_assign/static/css/main.521fbd27.css",
-    "main.js": "/daa_assign/static/js/main.1477c5b5.js",
+    "main.css": "/daa_assign/static/css/main.caa45ac0.css",
+    "main.js": "/daa_assign/static/js/main.85d1e594.js",
     "static/js/453.b2d5f986.chunk.js": "/daa_assign/static/js/453.b2d5f986.chunk.js",
+    "static/media/ask_size.jpg": "/daa_assign/static/media/ask_size.e6e1ed3519ab45069562.jpg",
+    "static/media/email_size.jpg": "/daa_assign/static/media/email_size.3f69857d2e4ef2f7f470.jpg",
+    "static/media/wiki_vote_size.jpg": "/daa_assign/static/media/wiki_vote_size.cf77cc459b624c64263e.jpg",
     "index.html": "/daa_assign/index.html",
-    "main.521fbd27.css.map": "/daa_assign/static/css/main.521fbd27.css.map",
-    "main.1477c5b5.js.map": "/daa_assign/static/js/main.1477c5b5.js.map",
+    "main.caa45ac0.css.map": "/daa_assign/static/css/main.caa45ac0.css.map",
+    "main.85d1e594.js.map": "/daa_assign/static/js/main.85d1e594.js.map",
     "453.b2d5f986.chunk.js.map": "/daa_assign/static/js/453.b2d5f986.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.521fbd27.css",
-    "static/js/main.1477c5b5.js"
+    "static/css/main.caa45ac0.css",
+    "static/js/main.85d1e594.js"
   ]
 }
